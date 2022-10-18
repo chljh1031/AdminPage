@@ -67,9 +67,10 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .map(user -> response(user))
 //                .map(userApiResponse -> Header.OK(userApiResponse))// 1. response 반환된 값을 Header로 한번 더 감싸줌
                 .map(Header::OK)// 2. 1과 동일한 결과
-                .orElseGet(
-                        ()->Header.ERROR("데이터 없음")
-                );
+//                .orElseGet(
+//                        ()->Header.ERROR("데이터 없음")
+//                );
+                .orElseThrow(()-> new RuntimeException("데이터가 없습니다."));
     }
 
     @Override
@@ -108,7 +109,8 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
             userRepository.delete(user);
             return Header.OK();
         })
-        .orElseGet(()->Header.ERROR("데이터 없음"));
+//        .orElseGet(()->Header.ERROR("데이터 없음"));
+          .orElseThrow(()-> new RuntimeException("데이터가 없습니다."));
     }
     
     // 페이징 이전 원본
